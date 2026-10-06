@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPTV 直播源 - AlanTang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .info-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .info-card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        .download-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .download-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .download-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .download-card .description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #65408b 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+        
+        .stats-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-item .label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item .value {
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .last-updated {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+        
+        .last-updated .time {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .download-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📺 IPTV 直播源</h1>
+            <p>免费直播源聚合 | 实时更新 | 多平台支持</p>
+        </header>
+        
+        <div class="info-card">
+            <h2>📋 项目说明</h2>
+            <p>本项目整合了来自 <a href="https://github.com/CCSH/IPTV" target="_blank" style="color: #667eea;">CCSH/IPTV</a> 的优质直播源，通过自动化脚本每日更新，为您提供最新的电视直播链接。</p>
+            <p><strong>数据来源：</strong>https://github.com/CCSH/IPTV</p>
+            <p><strong>更新频率：</strong>每日自动更新（北京时间凌晨4点）</p>
+        </div>
+        
+        <div class="last-updated">
+            <span>⏰ 最后更新时间：</span>
+            <span class="time" id="updateTime">正在加载...</span>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📊 统计信息</h2>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-item">
+                    <div class="label">完整版频道数</div>
+                    <div class="value" id="fullChannels">-</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">精简版频道数</div>
+                    <div class="value" id="liteChannels">-</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">其他频道数</div>
+                    <div class="value" id="otherChannels">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 style="color: white; margin-bottom: 20px; text-align: center;">📥 下载直播源文件</h2>
+        
+        <div class="download-section">
+            <div class="download-card">
+                <h3>📄 TXT 格式</h3>
+                <p class="description">完整版直播源<br>包含所有频道</p>
+                <a href="https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live.txt" class="download-btn" download>下载 live.txt</a>
+            </div>
+            
+            <div class="download-card">
+                <h3>📄 TXT 格式</h3>
+                <p class="description">精简版直播源<br>精选高质量频道</p>
+                <a href="https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live_lite.txt" class="download-btn" download>下载 live_lite.txt</a>
+            </div>
+            
+            <div class="download-card">
+                <h3>📄 TXT 格式</h3>
+                <p class="description">其他频道<br>特殊类型频道</p>
+                <a href="https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/others.txt" class="download-btn" download>下载 others.txt</a>
+            </div>
+            
+            <div class="download-card">
+                <h3>🎵 M3U 格式</h3>
+                <p class="description">完整版直播源<br>支持大多数播放器</p>
+                <a href="https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live.m3u" class="download-btn" download>下载 live.m3u</a>
+            </div>
+            
+            <div class="download-card">
+                <h3>🎵 M3U 格式</h3>
+                <p class="description">精简版直播源<br>精选高质量频道</p>
+                <a href="https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live_lite.m3u" class="download-btn" download>下载 live_lite.m3u</a>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <h2>💡 使用说明</h2>
+            <p><strong>播放器推荐：</strong></p>
+            <ul style="color: #666; line-height: 1.8; padding-left: 20px;">
+                <li>TVBox (推荐)</li>
+                <li>VLC Media Player</li>
+                <li>Kodi</li>
+                <li>PotPlayer</li>
+                <li>IINA (Mac)</li>
+                <li>任何支持 M3U 播放列表的播放器</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>使用方法：</strong></p>
+            <p style="color: #666; line-height: 1.8;">1. 下载对应格式的直播源文件<br>2. 在播放器中导入文件<br>3. 开始观看电视直播</p>
+        </div>
+        
+        <div class="info-card">
+            <h2>⚠️ 免责声明</h2>
+            <p style="color: #666; line-height: 1.8;">
+                本项目仅用于学习和研究目的。所有直播源均来自互联网公开资源，版权归原作者所有。
+                请在24小时内删除相关内容，如有侵权请联系删除。
+            </p>
+        </div>
+        
+        <footer>
+            <p>Powered by <a href="https://github.com/caiguguo123/alantang" target="_blank">caiguguo123/alantang</a> | 
+               Data from <a href="https://github.com/CCSH/IPTV" target="_blank">CCSH/IPTV</a></p>
+        </footer>
+    </div>
+    
+    <script>
+        // 获取最后更新时间
+        async function fetchUpdateTime() {
+            try {
+                const repo = 'CCSH/IPTV';
+                const response = await fetch(`https://api.github.com/repos/${repo}/commits?per_page=1`);
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    const date = new Date(data[0].commit.author.date);
+                    document.getElementById('updateTime').textContent = date.toLocaleString('zh-CN');
+                }
+            } catch (error) {
+                document.getElementById('updateTime').textContent = '每日自动更新';
+            }
+        }
+        
+        // 获取频道统计
+        async function fetchChannelStats() {
+            const files = [
+                { id: 'fullChannels', url: 'https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live.txt' },
+                { id: 'liteChannels', url: 'https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live_lite.txt' },
+                { id: 'otherChannels', url: 'https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/others.txt' }
+            ];
+            
+            for (const file of files) {
+                try {
+                    const response = await fetch(file.url);
+                    const text = await response.text();
+                    const lines = text.split('\n').filter(line => line.trim() !== '');
+                    document.getElementById(file.id).textContent = lines.length.toLocaleString();
+                } catch (error) {
+                    document.getElementById(file.id).textContent = '加载中...';
+                }
+            }
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchUpdateTime();
+            fetchChannelStats();
+        });
+    </script>
+</body>
+</html>
