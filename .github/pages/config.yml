@@ -1,0 +1,5 @@
+# GitHub Pages configuration
+# Enable GitHub Pages from the main branch
+source:
+  branch: main
+  path: /
